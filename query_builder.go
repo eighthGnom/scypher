@@ -37,6 +37,23 @@ func (qb *QueryBuilder) Merge(patterns ...QueryPattern) *QueryBuilder {
 	return qb
 }
 
+func (qb *QueryBuilder) Set(setClauses ...SetConfig) *QueryBuilder {
+	if len(setClauses) == 0 {
+		qb.addError(fmt.Errorf("empty Set clause"))
+		return qb
+	}
+	query := "SET "
+	for _, clause := range setClauses {
+		res := qb.mapConfigToString(&clause)
+		query += res
+		query += ", "
+	}
+	query = strings.TrimSuffix(query, ", ")
+	query += "\n"
+	qb.query += query
+	return qb
+}
+
 // Create builds CREATE clause
 func (qb *QueryBuilder) Create(patterns ...QueryPattern) *QueryBuilder {
 	qb.query += qb.queryPatternUsage("CREATE", patterns...)
