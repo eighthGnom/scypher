@@ -184,6 +184,15 @@ func (qb *QueryBuilder) Call(builder *QueryBuilder) *QueryBuilder {
 	return qb
 }
 
+func (qb *QueryBuilder) Collect(builder *QueryBuilder) *QueryBuilder {
+	subquery, err := builder.Build()
+	if err != nil {
+		qb.addError(err)
+	}
+	qb.query += fmt.Sprintf("COLLECT {%s}\n", subquery)
+	return qb
+}
+
 // Build return cypher query
 func (qb *QueryBuilder) Build() (string, error) {
 	qb.query = strings.TrimSuffix(qb.query, "\n")

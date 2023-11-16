@@ -3,6 +3,7 @@ package cypher
 import (
 	"encoding/json"
 	"fmt"
+	"reflect"
 )
 
 func anyToString[T any](value T) string {
@@ -11,4 +12,8 @@ func anyToString[T any](value T) string {
 		fmt.Println(err)
 	}
 	return string(s)
+}
+
+func isNil(i interface{}) bool {
+	return i == nil || reflect.ValueOf(i).IsNil()
 }

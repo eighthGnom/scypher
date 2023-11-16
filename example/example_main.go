@@ -139,7 +139,25 @@ func PreparePatternAndConstraints(filter *Filter) *c.QueryBuilder {
 
 func GetDatabaseListWithFilter(filter *Filter) (string, error) {
 	qb := PreparePatternAndConstraints(filter)
-	query, err := qb.Return(c.ReturnConfig{Variable: "database"}).Build()
+
+	fmt.Println()
+
+	query, err := qb.
+		Set(c.SetConfig{Variable: "database", Field: "business_owners"}).
+		Collect(c.NewQueryBuilder().
+			Match(c.NewNode().SetVariable("user").SetLabel("User").AsPattern(),
+				c.NewEdge().SetLabel("OWNS").SetProps(c.Property{Key: "type", Value: "Business Owner"}).SetPath(c.Outgoing).AsPattern(),
+				c.NewNode().SetVariable("database").AsPattern()).
+			Return(c.ReturnConfig{Distinct: true, Variable: "user", Field: "email"})).
+		Set(c.SetConfig{Variable: "database", Field: "tech_owners"}).
+		Collect(c.NewQueryBuilder().
+			Match(c.NewNode().SetVariable("user").SetLabel("User").AsPattern(),
+				c.NewEdge().SetLabel("OWNS").SetProps(c.Property{Key: "type", Value: "Technical Owner"}).SetPath(c.Outgoing).AsPattern(),
+				c.NewNode().SetVariable("database").AsPattern()).
+			Return(c.ReturnConfig{Distinct: true, Variable: "user", Field: "email"})).
+		Return(c.ReturnConfig{Variable: "database"}).
+		Build()
+
 	if err != nil {
 		return "", err
 	}
@@ -157,6 +175,7 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	}
+
 	fmt.Println(query)
 
 	fmt.Println()
