@@ -25,6 +25,15 @@ func (qb *QueryBuilder) Match(patterns ...QueryPattern) *QueryBuilder {
 	return qb
 }
 
+func (qb *QueryBuilder) CreatePath(patterns ...QueryPattern) *QueryBuilder {
+	for i := range patterns {
+		qb.query += qb.queryPatternMap(patterns[i])
+	}
+	qb.query += "\n"
+	return qb
+
+}
+
 // OptionalMath builds OPTIONAL MATCH clause
 func (qb *QueryBuilder) OptionalMath(patterns ...QueryPattern) *QueryBuilder {
 	qb.query += qb.queryPatternUsage("OPTIONAL MATCH", patterns...)
@@ -203,12 +212,12 @@ func (qb *QueryBuilder) Exists(builder *QueryBuilder) *QueryBuilder {
 }
 
 func (qb *QueryBuilder) AddRaw(query string) *QueryBuilder {
-	qb.query += fmt.Sprintf(" %s\n", query)
+	qb.query += fmt.Sprintf("%s\n", query)
 	return qb
 }
 
 func (qb *QueryBuilder) As(alias string) *QueryBuilder {
-	qb.query += fmt.Sprintf(" AS %s\n", alias)
+	qb.query += fmt.Sprintf("AS %s\n", alias)
 	return qb
 }
 
@@ -253,9 +262,6 @@ func (qb *QueryBuilder) queryPatternUsage(clause string, patterns ...QueryPatter
 	query := clause + " "
 	for i := range patterns {
 		query += qb.queryPatternMap(patterns[i])
-		if patterns[i].Nodes != (NodePattern{}) && i < len(patterns)-1 && patterns[i+1].Nodes != (NodePattern{}) {
-			query += ", "
-		}
 	}
 	query += "\n"
 	return query

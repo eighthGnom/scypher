@@ -20,7 +20,6 @@ func (pb *PatterBuilder) AddEdge(edge *Edge) *PatterBuilder {
 
 func (pb *PatterBuilder) ReleasePatterns() []QueryPattern {
 	return pb.patterns
-
 }
 
 func (pb *PatterBuilder) Clear() *PatterBuilder {

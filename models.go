@@ -13,6 +13,10 @@ type EdgePattern struct {
 	Edge *Edge
 }
 
+type PathPattern struct {
+	Path
+}
+
 type Condition string
 
 type OrderByOperator string
