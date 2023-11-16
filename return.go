@@ -8,7 +8,7 @@ type ReturnConfig struct {
 	Distinct bool
 	Variable string
 	Field    string
-	As       string
+	As       AliasOperator
 }
 
 func (rc *ReturnConfig) ToString() (string, error) {
