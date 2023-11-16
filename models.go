@@ -21,6 +21,8 @@ type Path string
 
 type BooleanOperator string
 
+type Distinct string
+
 const (
 	// And symbol condition "&"
 	AndSymbol Condition = "&"
@@ -55,4 +57,6 @@ const (
 	Incoming Path = "<--"
 	// Bidirectional <-->
 	Bidirectional Path = "<-->"
+
+	DISTINCT Distinct = "DISTINCT"
 )
