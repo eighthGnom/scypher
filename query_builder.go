@@ -198,6 +198,11 @@ func (qb *QueryBuilder) AddRaw(query string) *QueryBuilder {
 	return qb
 }
 
+func (qb *QueryBuilder) As(alias string) *QueryBuilder {
+	qb.query = fmt.Sprintf(" %s ", AS)
+	return qb
+}
+
 // Build return cypher query
 func (qb *QueryBuilder) Build() (string, error) {
 	qb.query = strings.TrimSuffix(qb.query, "\n")

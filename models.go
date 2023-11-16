@@ -23,6 +23,10 @@ type BooleanOperator string
 
 type Distinct string
 
+type Asterisk string
+
+type AliasOperator string
+
 const (
 	// And symbol condition "&"
 	AndSymbol Condition = "&"
@@ -58,5 +62,7 @@ const (
 	// Bidirectional <-->
 	Bidirectional Path = "<-->"
 
-	DISTINCT Distinct = "DISTINCT"
+	DISTINCT Distinct      = "DISTINCT"
+	WildCard Asterisk      = "*"
+	AS       AliasOperator = "AS"
 )
