@@ -199,7 +199,7 @@ func (qb *QueryBuilder) AddRaw(query string) *QueryBuilder {
 }
 
 func (qb *QueryBuilder) As(alias string) *QueryBuilder {
-	qb.query = fmt.Sprintf(" %s ", AS)
+	qb.query = fmt.Sprintf(" %s %s ", AS, alias)
 	return qb
 }
 
