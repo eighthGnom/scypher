@@ -8,6 +8,7 @@ type ReturnConfig struct {
 	Distinct bool
 	Variable string
 	Field    string
+	As       AliasOperator
 }
 
 func (rc *ReturnConfig) ToString() (string, error) {
@@ -22,6 +23,9 @@ func (rc *ReturnConfig) ToString() (string, error) {
 		query += fmt.Sprintf("%s.%s", rc.Variable, rc.Field)
 	} else {
 		query += rc.Variable
+	}
+	if rc.As != "" {
+		query += fmt.Sprintf(" AS %s", rc.As)
 	}
 	return query, nil
 }

@@ -9,6 +9,7 @@ type WithConfig struct {
 	Function string
 	Variable string
 	Field    string
+	As       AliasOperator
 }
 
 func (wc *WithConfig) ToString() (string, error) {
@@ -28,6 +29,9 @@ func (wc *WithConfig) ToString() (string, error) {
 	}
 	if wc.Function != "" {
 		query = fmt.Sprintf("%s(%s)", wc.Function, query)
+	}
+	if wc.As != "" {
+		query += fmt.Sprintf(" AS %s", wc.As)
 	}
 	return query, nil
 }
