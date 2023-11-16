@@ -23,7 +23,7 @@ func (wc *WithConfig) ToString() (string, error) {
 			query += fmt.Sprintf(".%s", wc.Field)
 		}
 	} else if wc.WildCard {
-		query = fmt.Sprintf("%s", WildCard)
+		query = fmt.Sprintf("%s,", WildCard)
 	} else {
 		return "", fmt.Errorf("WithConfig - must define a function or name")
 	}
