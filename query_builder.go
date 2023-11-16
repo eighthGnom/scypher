@@ -192,14 +192,22 @@ func (qb *QueryBuilder) Collect(builder *QueryBuilder) *QueryBuilder {
 	qb.query += fmt.Sprintf("COLLECT {%s}\n", subquery)
 	return qb
 }
+func (qb *QueryBuilder) Exists(builder *QueryBuilder) *QueryBuilder {
+	subquery, err := builder.Build()
+	if err != nil {
+		qb.addError(err)
+	}
+	qb.query += fmt.Sprintf("EXISTS {%s}\n", subquery)
+	return qb
+}
 
 func (qb *QueryBuilder) AddRaw(query string) *QueryBuilder {
-	qb.query = fmt.Sprintf(" %s\n", query)
+	qb.query += fmt.Sprintf(" %s\n", query)
 	return qb
 }
 
 func (qb *QueryBuilder) As(alias string) *QueryBuilder {
-	qb.query = fmt.Sprintf(" %s %s ", AS, alias)
+	qb.query += fmt.Sprintf(" %s %s ", AS, alias)
 	return qb
 }
 
