@@ -46,9 +46,6 @@ func (n Node) AsPattern() QueryPattern {
 }
 
 func (n Node) ToCypher() (string, error) {
-	if n.variable == "" && len(n.label.Names) > 0 {
-		return "", fmt.Errorf("node must have a variable with at least one label")
-	}
 	node := ""
 	if n.variable != "" {
 		node += n.variable
