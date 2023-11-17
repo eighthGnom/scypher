@@ -272,5 +272,15 @@ func (qb *QueryBuilder) addError(err error) {
 }
 
 func (qb *QueryBuilder) errorBuild() error {
-	return errors.Join(qb.errors...)
+	if len(qb.errors) > 0 {
+		str := "errors found: "
+		for _, err := range qb.errors {
+			str += err.Error() + ";"
+		}
+
+		str = strings.TrimSuffix(str, ";") + fmt.Sprintf(" -- total errors (%v)", len(qb.errors))
+		return errors.New(str)
+	}
+
+	return nil
 }
